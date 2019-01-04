@@ -1,7 +1,7 @@
 {
-  "name": "AAG network",
+  "name": "devconnector",
   "version": "1.0.0",
-  "description": "social network for AAG",
+  "description": "social network for developer",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
