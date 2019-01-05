@@ -6,7 +6,10 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const passport = require('passport');
 
-// load user model
+// Load Input validation
+const validateRegisterInput = require('../../validation/register');
+
+// Load User model
 const User = require("../../models/User");
 
 // @route GET api/users/test
@@ -22,13 +25,22 @@ router.get("/test", (req, res) =>
 // @desc register user
 // @access public
 router.post("/register", (req, res) => {
+
+  //pull errors and isvalid from register.js validation through destructuring
+  const { errors, isValid } = validateRegisterInput(req.body);
+
+  //check to see if there are errors in validatoin
+  if(!isValid) {
+    return res.status(400).json(errors);
+  }
+  
+
   User.findOne({
     email: req.body.email
   }).then(user => {
     if (user) {
-      return res.status(400).json({
-        email: "Email already exists in system"
-      });
+      errors.email = 'Email already exists'
+      return res.status(400).json(errors);
     } else {
       const avatar = gravatar.url(req.body.email, {
         s: "200", // size
