@@ -4,11 +4,11 @@ const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
-const passport = require('passport');
+const passport = require("passport");
 
 // Load Input validation
-const validateRegisterInput = require('../../validation/register');
-const validateLoginInput = require('../../validation/login');
+const validateRegisterInput = require("../../validation/register");
+const validateLoginInput = require("../../validation/login");
 
 // Load User model
 const User = require("../../models/User");
@@ -22,25 +22,23 @@ router.get("/test", (req, res) =>
   })
 );
 
-// @route GET api/users/register
+// @route POST api/users/register
 // @desc register user
 // @access public
 router.post("/register", (req, res) => {
-
   //pull errors and isvalid from register.js validation through destructuring
   const { errors, isValid } = validateRegisterInput(req.body);
 
   //check to see if there are errors in validatoin
-  if(!isValid) {
+  if (!isValid) {
     return res.status(400).json(errors);
   }
-  
 
   User.findOne({
     email: req.body.email
   }).then(user => {
     if (user) {
-      errors.email = 'Email already exists'
+      errors.email = "Email already exists";
       return res.status(400).json(errors);
     } else {
       const avatar = gravatar.url(req.body.email, {
@@ -74,13 +72,11 @@ router.post("/register", (req, res) => {
 // @desc login user / returning JWT token
 // @access public
 router.post("/login", (req, res) => {
-
-  
   //pull errors and isvalid from login.js validation through destructuring
   const { errors, isValid } = validateLoginInput(req.body);
 
   //check to see if there are errors in validatoin
-  if(!isValid) {
+  if (!isValid) {
     return res.status(400).json(errors);
   }
 
@@ -93,10 +89,9 @@ router.post("/login", (req, res) => {
   }).then(user => {
     // Check for user
     if (!user) {
-      errors.email = 'User not found';
+      errors.email = "User not found";
       return res.status(404).json(errors);
-      }
-    
+    }
 
     // if user is found, check password
     bcrypt.compare(password, user.password).then(isMatch => {
@@ -125,7 +120,7 @@ router.post("/login", (req, res) => {
           }
         );
       } else {
-        errors.password = 'Password incorrect';
+        errors.password = "Password incorrect";
         return res.status(400).json(errors);
       }
     });
@@ -137,14 +132,16 @@ router.post("/login", (req, res) => {
 // @desc Return current user
 // @access private
 router.get(
-  '/current',
-  passport.authenticate('jwt', { session: false }),
+  "/current",
+  passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    res.json({ //return only these, no need to return password all the time
+    res.json({
+      //return only these, no need to return password all the time
       id: req.user.id,
       name: req.user.name,
       email: req.user.email
     });
-});
+  }
+);
 
 module.exports = router;
