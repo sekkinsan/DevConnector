@@ -17,6 +17,13 @@ class Login extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentDidMount() {
+    // check to see if logged in
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     //test to see if authenticated is true
     if (nextProps.auth.isAuthenticated) {
