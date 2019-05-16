@@ -27,6 +27,7 @@ const TextAreaFieldGroup = ({
   );
 };
 
+// eslint-disable-next-line react/no-typos
 TextAreaFieldGroup.PropTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,

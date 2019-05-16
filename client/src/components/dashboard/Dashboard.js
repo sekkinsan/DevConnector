@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { getCurrentProfile, deleteAccount } from "../../actions/profileActions";
 import Spinner from "../common/Spinner";
 import ProfileActions from "./ProfileActions";
+import Experience from "./Experience";
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -16,7 +17,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    // need to chec that profile isn't null before rendering
+    // need to check that profile isn't null before rendering
     const { user } = this.props.auth;
     const { profile, loading } = this.props.profile;
 
@@ -34,6 +35,7 @@ class Dashboard extends Component {
             </p>
             <ProfileActions />
             {/* TODO: experience and education */}
+            <Experience experience={profile.experience} />
             <div style={{ marginBottom: "60px" }} />
             <button
               onClick={this.onDeleteClick.bind(this)}
