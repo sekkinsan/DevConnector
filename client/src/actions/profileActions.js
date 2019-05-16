@@ -74,6 +74,25 @@ export const deleteExperience = id => dispatch => {
     );
 };
 
+// Delete education not including history so we can just go to updatedprofile
+export const deleteEducation = id => dispatch => {
+  //endpoint is DELETE
+  axios
+    .delete(`/api/profile/education/${id}`)
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
 // Delete account & profile
 export const deleteAccount = () => dispatch => {
   if (window.confirm("Are you sure? This cannot be undone")) {
