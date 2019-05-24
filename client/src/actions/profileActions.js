@@ -89,8 +89,8 @@ export const deleteEducation = () => dispatch => {
     )
     .catch(err =>
       dispatch({
-        type: GET_PROFILES,
-        payload: null
+        type: GET_ERRORS,
+        payload: err.response.data
       })
     );
 };
@@ -108,8 +108,8 @@ export const getProfiles = id => dispatch => {
     )
     .catch(err =>
       dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
+        type: GET_PROFILES,
+        payload: null
       })
     );
 };
