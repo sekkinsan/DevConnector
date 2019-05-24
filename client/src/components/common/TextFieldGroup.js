@@ -32,7 +32,7 @@ const TextFieldGroup = ({
 };
 
 // eslint-disable-next-line react/no-typos
-TextFieldGroup.PropTypes = {
+TextFieldGroup.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.string.isRequired,

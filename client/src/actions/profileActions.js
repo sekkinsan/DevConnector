@@ -5,7 +5,8 @@ import {
   PROFILE_LOADING,
   GET_ERRORS,
   CLEAR_CURRENT_PROFILE,
-  SET_CURRENT_USER
+  SET_CURRENT_USER,
+  GET_PROFILES
 } from "./types";
 
 // Get current profile
@@ -75,7 +76,27 @@ export const deleteExperience = id => dispatch => {
 };
 
 // Delete education not including history so we can just go to updatedprofile
-export const deleteEducation = id => dispatch => {
+export const deleteEducation = () => dispatch => {
+  dispatch(setProfileLoading());
+  //endpoint is DELETE
+  axios
+    .get("/api/profile/all")
+    .then(res =>
+      dispatch({
+        type: GET_PROFILES,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_PROFILES,
+        payload: null
+      })
+    );
+};
+
+// Get all profiles
+export const getProfiles = id => dispatch => {
   //endpoint is DELETE
   axios
     .delete(`/api/profile/education/${id}`)
