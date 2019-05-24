@@ -2,11 +2,11 @@ import axios from "axios";
 
 import {
   GET_PROFILE,
+  GET_PROFILES,
   PROFILE_LOADING,
   GET_ERRORS,
   CLEAR_CURRENT_PROFILE,
-  SET_CURRENT_USER,
-  GET_PROFILES
+  SET_CURRENT_USER
 } from "./types";
 
 // Get current profile
@@ -76,11 +76,10 @@ export const deleteExperience = id => dispatch => {
 };
 
 // Delete education not including history so we can just go to updatedprofile
-export const deleteEducation = () => dispatch => {
-  dispatch(setProfileLoading());
+export const deleteEducation = id => dispatch => {
   //endpoint is DELETE
   axios
-    .get("/api/profile/all")
+    .delete(`/api/profile/education/${id}`)
     .then(res =>
       dispatch({
         type: GET_PROFILES,
@@ -96,13 +95,13 @@ export const deleteEducation = () => dispatch => {
 };
 
 // Get all profiles
-export const getProfiles = id => dispatch => {
-  //endpoint is DELETE
+export const getProfiles = () => dispatch => {
+  dispatch(setProfileLoading());
   axios
-    .delete(`/api/profile/education/${id}`)
+    .get("/api/profile/all")
     .then(res =>
       dispatch({
-        type: GET_PROFILE,
+        type: GET_PROFILES,
         payload: res.data
       })
     )
